@@ -1,36 +1,35 @@
-'use client'
+'use client';
 
-import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
 type GalleryImage = {
-  id: number
-  src: string
-  alt: string
-  category: string
-}
+  id: number;
+  src: string;
+  alt: string;
+  category: string;
+};
 
 export default function GalleryPage() {
-  
-  const [images, setImages] = useState<GalleryImage[]>([])
-  const [loading, setLoading] = useState(true)
-  const [activeCategory, setActiveCategory] = useState('all')
+  const [images, setImages] = useState<GalleryImage[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [activeCategory, setActiveCategory] = useState('all');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch('/api/data')
-        if (!res.ok) throw new Error('Failed to fetch')
-        const data = await res.json()
-        setImages(data.GalleryImages || [])
+        const res = await fetch('/api/data');
+        if (!res.ok) throw new Error('Failed to fetch');
+        const data = await res.json();
+        setImages(data.GalleryImages || []);
       } catch (error) {
-        console.error('Error fetching gallery data:', error)
+        console.error('Error fetching gallery data:', error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
-    fetchData()
-  }, [])
+    };
+    fetchData();
+  }, []);
 
   return (
     <main className="min-h-screen">
@@ -46,10 +45,10 @@ export default function GalleryPage() {
       </section>
 
       {/* Gallery Section */}
-      <section className='py-16 bg-white'>
-        <div className='container mx-auto px-4'>
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
           {/* Category Filters */}
-          <div className='flex flex-wrap justify-center gap-3 mb-10'>
+          <div className="flex flex-wrap justify-center gap-3 mb-10">
             <button
               onClick={() => setActiveCategory('all')}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
@@ -76,28 +75,28 @@ export default function GalleryPage() {
           </div>
 
           {loading ? (
-            <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4'>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
               {Array.from({ length: 12 }).map((_, i) => (
-                <div key={i} className='aspect-square bg-gray-200 animate-pulse rounded-lg' />
+                <div key={i} className="aspect-square bg-gray-200 animate-pulse rounded-lg" />
               ))}
             </div>
           ) : (
-            <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4'>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
               {images
                 .filter(img => activeCategory === 'all' || img.category === activeCategory)
                 .map((item) => (
-                  <div key={item.id} className='group relative overflow-hidden rounded-lg'>
-                    <div className='aspect-square w-full overflow-hidden bg-gray-100'>
+                  <div key={item.id} className="group relative overflow-hidden rounded-lg">
+                    <div className="aspect-square w-full overflow-hidden bg-gray-100">
                       <Image
                         src={item.src}
                         alt={item.alt}
                         width={500}
                         height={500}
-                        className='h-full w-full object-cover transition-transform duration-300 group-hover:scale-110'
+                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
                       />
                     </div>
-                    <div className='absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100'>
-                      <span className='text-white font-medium text-sm bg-black bg-opacity-50 px-3 py-1 rounded-full'>
+                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                      <span className="text-white font-medium text-sm bg-black bg-opacity-50 px-3 py-1 rounded-full">
                         {item.category}
                       </span>
                     </div>
@@ -107,7 +106,6 @@ export default function GalleryPage() {
           )}
         </div>
       </section>
-
     </main>
-  )
+  );
 }
