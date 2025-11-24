@@ -10,21 +10,21 @@ type GalleryImage = {
   category: string
 }
 
-export const GalleryItem = ({ imageSrc, imageAlt }: { imageSrc: string; imageAlt: string }) => (
-  <div className='group relative overflow-hidden rounded-lg transition-all duration-300 hover:scale-105 shadow-md hover:shadow-xl'>
-    <div className='aspect-square w-full overflow-hidden bg-gray-100'>
-      <Image
-        src={imageSrc}
-        alt={imageAlt}
-        width={600}
-        height={600}
-        className='h-full w-full object-cover transition-opacity duration-300 group-hover:opacity-90'
-      />
-    </div>
-  </div>
-)
-
 export default function GalleryPage() {
+  const GalleryItem = ({ imageSrc, imageAlt }: { imageSrc: string; imageAlt: string }) => (
+    <div className='group relative overflow-hidden rounded-lg transition-all duration-300 hover:scale-105 shadow-md hover:shadow-xl'>
+      <div className='aspect-square w-full overflow-hidden bg-gray-100'>
+        <Image
+          src={imageSrc}
+          alt={imageAlt}
+          width={600}
+          height={600}
+          className='h-full w-full object-cover transition-opacity duration-300 group-hover:opacity-90'
+        />
+      </div>
+    </div>
+  )
+  
   const [images, setImages] = useState<GalleryImage[]>([])
   const [loading, setLoading] = useState(true)
   const [activeCategory, setActiveCategory] = useState('all')
