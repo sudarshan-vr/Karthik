@@ -4,8 +4,12 @@ import { useEffect, useRef, useState } from 'react'
 import Logo from './Logo'
 import HeaderLink from '../Header/Navigation/HeaderLink'
 import MobileHeaderLink from '../Header/Navigation/MobileHeaderLink'
-import Signin from '@/app/components/Auth/SignIn'
-import SignUp from '@/app/components/Auth/SignUp'
+import dynamic from 'next/dynamic'
+
+const EnrollmentForm = dynamic(
+  () => import('@/app/components/Enrollment/EnrollmentForm'),
+  { ssr: false }
+)
 import { Icon } from '@iconify/react/dist/iconify.js'
 import { HeaderItem } from '@/app/types/menu'
 
@@ -14,12 +18,10 @@ const Header: React.FC = () => {
 
   const [navbarOpen, setNavbarOpen] = useState(false)
   const [sticky, setSticky] = useState(false)
-  const [isSignInOpen, setIsSignInOpen] = useState(false)
-  const [isSignUpOpen, setIsSignUpOpen] = useState(false)
+  const [isEnrollmentOpen, setIsEnrollmentOpen] = useState(false)
 
   const navbarRef = useRef<HTMLDivElement>(null)
-  const signInRef = useRef<HTMLDivElement>(null)
-  const signUpRef = useRef<HTMLDivElement>(null)
+  const enrollmentRef = useRef<HTMLDivElement>(null)
   const mobileMenuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -42,16 +44,10 @@ const Header: React.FC = () => {
 
   const handleClickOutside = (event: MouseEvent) => {
     if (
-      signInRef.current &&
-      !signInRef.current.contains(event.target as Node)
+      enrollmentRef.current &&
+      !enrollmentRef.current.contains(event.target as Node)
     ) {
-      setIsSignInOpen(false)
-    }
-    if (
-      signUpRef.current &&
-      !signUpRef.current.contains(event.target as Node)
-    ) {
-      setIsSignUpOpen(false)
+      setIsEnrollmentOpen(false)
     }
     if (
       mobileMenuRef.current &&
@@ -65,19 +61,27 @@ const Header: React.FC = () => {
   useEffect(() => {
     window.addEventListener('scroll', handleScroll)
     document.addEventListener('mousedown', handleClickOutside)
+    
+    // Add event listener for the custom event
+    const handleEnrollmentEvent = () => {
+      setIsEnrollmentOpen(true)
+    }
+    window.addEventListener('openEnrollmentForm', handleEnrollmentEvent)
+    
     return () => {
       window.removeEventListener('scroll', handleScroll)
       document.removeEventListener('mousedown', handleClickOutside)
+      window.removeEventListener('openEnrollmentForm', handleEnrollmentEvent)
     }
-  }, [navbarOpen, isSignInOpen, isSignUpOpen])
+  }, [navbarOpen, isEnrollmentOpen])
 
   useEffect(() => {
-    if (isSignInOpen || isSignUpOpen || navbarOpen) {
+    if (isEnrollmentOpen || navbarOpen) {
       document.body.style.overflow = 'hidden'
     } else {
       document.body.style.overflow = ''
     }
-  }, [isSignInOpen, isSignUpOpen, navbarOpen])
+  }, [isEnrollmentOpen, navbarOpen])
 
   return (
     <header
@@ -94,56 +98,16 @@ const Header: React.FC = () => {
           </nav>
           <div className='flex items-center gap-4'>
             <button
-              className='hidden lg:block bg-transparent text-primary border hover:bg-primary border-primary hover:text-white duration-300 px-6 py-2 rounded-lg hover:cursor-pointer'
-              onClick={() => {
-                setIsSignInOpen(true)
-              }}>
-              Sign In
-            </button>
-            {isSignInOpen && (
-              <div className='fixed top-0 left-0 w-full h-full bg-black/50 flex items-center justify-center z-50'>
-                <div
-                  ref={signInRef}
-                  className='relative mx-auto w-full max-w-md overflow-hidden rounded-lg px-8 pt-14 pb-8 text-center bg-dark_grey/90 backdrop-blur-md bg-white'>
-                  <button
-                    onClick={() => setIsSignInOpen(false)}
-                    className='absolute top-0 right-0 mr-8 mt-8 dark:invert'
-                    aria-label='Close Sign In Modal'>
-                    <Icon
-                      icon='material-symbols:close-rounded'
-                      width={24}
-                      height={24}
-                      className='text-black hover:text-primary inline-block hover:cursor-pointer'
-                    />
-                  </button>
-                  <Signin />
-                </div>
-              </div>
-            )}
-            <button
               className='hidden lg:block bg-primary text-white text-base font-medium hover:bg-transparent duration-300 hover:text-primary border border-primary px-6 py-2 rounded-lg hover:cursor-pointer'
               onClick={() => {
-                setIsSignUpOpen(true)
+                setIsEnrollmentOpen(true)
               }}>
-              Sign Up
+              Join Now
             </button>
-            {isSignUpOpen && (
+            {isEnrollmentOpen && (
               <div className='fixed top-0 left-0 w-full h-full bg-black/50 flex items-center justify-center z-50'>
-                <div
-                  ref={signUpRef}
-                  className='relative mx-auto bg-white w-full max-w-md overflow-hidden rounded-lg bg-dark_grey/90 backdrop-blur-md px-8 pt-14 pb-8 text-center'>
-                  <button
-                    onClick={() => setIsSignUpOpen(false)}
-                    className='absolute top-0 right-0 mr-8 mt-8 dark:invert'
-                    aria-label='Close Sign Up Modal'>
-                    <Icon
-                      icon='material-symbols:close-rounded'
-                      width={24}
-                      height={24}
-                      className='text-black hover:text-primary inline-block hover:cursor-pointer'
-                    />
-                  </button>
-                  <SignUp />
+                <div ref={enrollmentRef} className='relative'>
+                  <EnrollmentForm onClose={() => setIsEnrollmentOpen(false)} />
                 </div>
               </div>
             )}
@@ -185,22 +149,14 @@ const Header: React.FC = () => {
             {headerData.map((item, index) => (
               <MobileHeaderLink key={index} item={item} />
             ))}
-            <div className='mt-4 flex flex-col gap-4 w-full'>
+            <div className='mt-4 w-full'>
               <button
-                className='bg-primary text-white px-4 py-2 rounded-lg border  border-primary hover:text-primary hover:bg-transparent hover:cursor-pointer transition duration-300 ease-in-out'
+                className='w-full bg-primary text-white px-4 py-2 rounded-lg border border-primary hover:text-primary hover:bg-transparent hover:cursor-pointer transition duration-300 ease-in-out'
                 onClick={() => {
-                  setIsSignInOpen(true)
+                  setIsEnrollmentOpen(true)
                   setNavbarOpen(false)
                 }}>
-                Sign In
-              </button>
-              <button
-                className='bg-primary text-white px-4 py-2 rounded-lg border  border-primary hover:text-primary hover:bg-transparent hover:cursor-pointer transition duration-300 ease-in-out'
-                onClick={() => {
-                  setIsSignUpOpen(true)
-                  setNavbarOpen(false)
-                }}>
-                Sign Up
+                Join Now
               </button>
             </div>
           </nav>

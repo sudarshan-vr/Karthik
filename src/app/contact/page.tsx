@@ -32,7 +32,7 @@ const ContactPage = () => {
               </div>
               <div className="ml-4">
                 <h3 className="text-lg font-medium text-gray-900">Address</h3>
-                <p className="mt-1 text-gray-600">123 Education Street, Learning City, 560001</p>
+                <p className="mt-1 text-gray-600">12/1 S Hig D Block, Yelahanka New Town 5th Phase, Yelahanka, Bengalore.</p>
               </div>
             </div>
 
@@ -44,8 +44,7 @@ const ContactPage = () => {
               </div>
               <div className="ml-4">
                 <h3 className="text-lg font-medium text-gray-900">Phone</h3>
-                <p className="mt-1 text-gray-600">+91 98765 43210</p>
-                <p className="text-gray-600">+91 80 1234 5678</p>
+                <p className="mt-1 text-gray-600">+91 88844 33655</p>
               </div>
             </div>
 
@@ -57,8 +56,9 @@ const ContactPage = () => {
               </div>
               <div className="ml-4">
                 <h3 className="text-lg font-medium text-gray-900">Email</h3>
-                <p className="mt-1 text-gray-600">info@kiteeducation.com</p>
-                <p className="text-gray-600">admissions@kiteeducation.com</p>
+                <p className="mt-1 text-gray-600">admissions@drkiteacademy.com</p>
+                <p className="text-gray-600">academics@drkiteacademy.com</p>
+                <p className="text-gray-600">exams@drkiteacademy.com</p>
               </div>
             </div>
 
@@ -69,7 +69,7 @@ const ContactPage = () => {
                 </svg>
               </div>
               <div className="ml-4">
-                <h3 className="text-lg font-medium text-gray-900">Working Hours</h3>
+                <h3 className="text-lg font-medium text-gray-900">Tution Hours</h3>
                 <p className="mt-1 text-gray-600">Monday - Friday: 9:00 AM - 7:00 PM</p>
                 <p className="text-gray-600">Saturday: 9:00 AM - 2:00 PM</p>
                 <p className="text-gray-600">Sunday: Closed</p>
@@ -87,7 +87,7 @@ const ContactPage = () => {
       <div className="mt-16">
         <div className="aspect-w-16 aspect-h-9 w-full h-96 rounded-lg overflow-hidden">
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.007593062675!2d77.59451431535008!3d12.971997990856813!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670c9b44e6d%3A0xf5df8050a07e7f05!2sBangalore%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1234567890123!5m2!1sen!2sin"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3882.123456789012!2d77.59451431535008!3d13.100000000000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae17b9b4d4f5a5%3A0x1e3a9b9b4d4f5a5!2sYelahanka%20New%20Town%2C%20Bengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1234567890123!5m2!1sen!2sin"
             width="100%"
             height="100%"
             style={{ border: 0 }}

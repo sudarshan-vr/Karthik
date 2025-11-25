@@ -44,26 +44,24 @@ const Footer = () => {
             </p>
             <div className='flex gap-4'>
               <Link
-                href='/'
-                className='bg-white/20 rounded-full p-2 text-white hover:bg-cream hover:text-primary duration-300'>
+                href='https://www.facebook.com/p/Dr-KITE-Academy-61574189070801/'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='bg-white/20 rounded-full p-2 text-white hover:bg-cream hover:text-primary duration-300'
+                aria-label='Facebook'>
+                <Icon
+                  icon='tabler:brand-facebook-filled'
+                  className='text-2xl inline-block'
+                />
+              </Link>
+              <Link
+                href='https://www.instagram.com/dr.kiteacademy/'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='bg-white/20 rounded-full p-2 text-white hover:bg-cream hover:text-primary duration-300'
+                aria-label='Instagram'>
                 <Icon
                   icon='tabler:brand-instagram'
-                  className='text-2xl inline-block'
-                />
-              </Link>
-              <Link
-                href='/'
-                className='bg-white/20 rounded-full p-2 text-white hover:bg-cream hover:text-primary duration-300'>
-                <Icon
-                  icon='tabler:brand-dribbble'
-                  className='text-2xl inline-block'
-                />
-              </Link>
-              <Link
-                href='/'
-                className='bg-white/20 rounded-full p-2 text-white hover:bg-cream hover:text-primary duration-300'>
-                <Icon
-                  icon='tabler:brand-twitter-filled'
                   className='text-2xl inline-block'
                 />
               </Link>
@@ -131,7 +129,7 @@ const Footer = () => {
       </div>
       <div className='py-3'>
         <h3 className='text-center text-white/60'>
-          @2025 - All Rights Reserved | Powered by{' '}
+          Copyright ©2025 DrKiteacademy. All Rights Reserved. Design & Develop by{' '}
           <Link
             href='https://unitechclub.com/'
             target='_blank'

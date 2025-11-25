@@ -16,6 +16,7 @@ interface Name {
   | 'mobiledevelopment'
   | 'datascience'
   | 'cloudcomputing'
+  | 'all'
 }
 
 const NamesList = () => {
@@ -47,7 +48,7 @@ const NamesList = () => {
     | 'cloudcomputing'
     | 'all'
     | null
-  >('webdevelopment')
+  >('all')
   const mobileDevelopment = courseDetail.filter(
     (name) => name.category === 'mobiledevelopment'
   )
@@ -62,7 +63,9 @@ const NamesList = () => {
   )
 
   let selectedNames: Name[] = []
-  if (selectedButton === 'mobiledevelopment') {
+  if (selectedButton === 'all') {
+    selectedNames = [...webDevelopment, ...mobileDevelopment, ...dataScience, ...cloudComputing]
+  } else if (selectedButton === 'mobiledevelopment') {
     selectedNames = mobileDevelopment
   } else if (selectedButton === 'webdevelopment') {
     selectedNames = webDevelopment
@@ -88,9 +91,16 @@ const NamesList = () => {
           <div className="flex flex-col gap-5">
             <div className='flex items-center justify-between'>
               <p className='block font-normal text-gray-900'>{name.course}</p>
-              <div className='block text-lg font-semibold text-success border-solid border-2 border-success rounded-md px-1'>
-                <p>${name.price}</p>
-              </div>
+              <button 
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  const event = new CustomEvent('openEnrollmentForm');
+                  window.dispatchEvent(event);
+                }}
+                className='block text-lg font-semibold text-success hover:bg-success hover:text-white border-solid border-2 border-success rounded-md px-1 transition-colors duration-200'>
+                {name.price}
+              </button>
             </div>
             <Link href={'/'}>
               <p
@@ -101,7 +111,7 @@ const NamesList = () => {
             </Link>
           </div>
           <div className='flex justify-between border-solid border-2 rounded-md p-2'>
-            <p>12 Classes</p>
+            <p>2025-26</p>
             <div className='flex flex-row space-x-4'>
               <div className='flex'>
                 <Image
@@ -132,27 +142,42 @@ const NamesList = () => {
     <section id='courses-section'>
       <div className='container mx-auto max-w-7xl px-4'>
         <div className='flex flex-col sm:flex-row justify-between sm:items-center gap-5 mb-4'>
-          <h2 className='font-bold tracking-tight'>Our Classes</h2>
+          <h2 className='font-bold tracking-tight'>Admissions Open</h2>
           <div>
-            <Link 
-              href="/contact" 
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                const event = new CustomEvent('openEnrollmentForm');
+                window.dispatchEvent(event);
+              }}
               className='inline-block bg-transparent cursor-pointer hover:bg-primary text-primary font-medium hover:text-white py-3 px-4 border border-primary hover:border-transparent rounded-sm duration-300'>
               Enroll Now
-            </Link>
+            </button>
           </div>
         </div>
         <div className='flex nowhitespace space-x-5 rounded-xl bg-white p-1 overflow-x-auto mb-4'>
           {/* FOR DESKTOP VIEW */}
           <button
+            onClick={() => setSelectedButton('all')}
+            className={
+              'bg-white ' +
+              (selectedButton === 'all'
+                ? 'text-black border-b-2 border-yellow-200'
+                : 'text-black/40') +
+              ' pb-2 text-lg hidden sm:block hover:cursor-pointer'
+            }>
+            All
+          </button>
+          <button
             onClick={() => setSelectedButton('webdevelopment')}
             className={
-              'bg-white' +
+              'bg-white ' +
               (selectedButton === 'webdevelopment'
                 ? 'text-black border-b-2 border-yellow-200'
                 : 'text-black/40') +
               ' pb-2 text-lg hidden sm:block hover:cursor-pointer'
             }>
-            Kindergarten
+            Pre-High School
           </button>
           <button
             onClick={() => setSelectedButton('mobiledevelopment')}
@@ -189,6 +214,16 @@ const NamesList = () => {
           </button>
 
           {/* FOR MOBILE VIEW */}
+          <Icon
+            icon='solar:grid-2-line-duotone'
+            onClick={() => setSelectedButton('all')}
+            className={
+              'text-5xl sm:hidden block ' +
+              (selectedButton === 'all'
+                ? 'border-b-2 border-yellow-200'
+                : 'text-gray-400')
+            }
+          />
           <Icon
             icon='solar:global-line-duotone'
             onClick={() => setSelectedButton('webdevelopment')}
